@@ -2,6 +2,8 @@ import './App.css'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import { useEffect, useState } from 'react'
+import { getCharacters } from './api/character'
+import { Route } from 'react-router-dom'
 
 
 
@@ -9,30 +11,9 @@ import { useEffect, useState } from 'react'
 function App() {
   const [conteudo, setConteudo] = useState(<>Carregando</>)
 
-  async function PegarConteudo() {
-    //vai realizar o fetch para a api do rick and morty - usando axios
-    //get= busca info, post= adicionar infor, put= alterar info , delete = deletar info 
-    const requestOptions = {
-      method: 'GET'
-    }
-
-    const response = await fetch(
-      'https://rickandmortyapi.com/api/character', 
-      requestOptions
-    )
-
-    if(!response.ok) {
-      return []
-    }
-
-  
-    const data = await response.json()
-
-      //data = {info: {}}
-    return data.results 
-  }
+ 
  async function TransformaEmLista() {
-    const todosPersonagens = await PegarConteudo()
+    const todosPersonagens = await getCharacters()
 
    return todosPersonagens.map(personagem => 
       <div className='card char'key={personagem.id}>
@@ -70,6 +51,11 @@ function App() {
   return (
     <>
       <Header />
+
+    <Routes>
+      <Route path= '/' element={<></>} />
+    </Routes>
+
       <main>
         {/*filtros*/}
         <div className='lista-principal'>
